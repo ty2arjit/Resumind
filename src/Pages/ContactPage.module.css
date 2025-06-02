@@ -1,46 +1,82 @@
-.container {
+.wrapper{
+  min-height: 100vh;
+  background: linear-gradient(to right, #9fea7d, #e2f4d7,#9fea7d);
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 90vh;
-  padding: 2rem;
-  margin-top: 80px; /* space for navbar */
-  background: linear-gradient(to right, #eef2f3, #ffffff);
+  justify-content: center;
+  padding: 60px 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.contactBox {
-  background: white;
-  padding: 3rem 4rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  width: 100%;
+.card{
+  background-color: rgb(208, 188, 225);
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  max-width: 700%;
+  width: 50%;
   text-align: center;
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.contactBox h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  color: #4f46e5;
+@keyframes fadeInUp{
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.infoSection {
-  margin-top: 1.5rem;
+.heading{
+  font-size: 2.2rem;
+  color: #4c4a8a;
+  margin-bottom: 10px;
 }
 
-.infoSection h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.8rem;
+.subtext{
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.section{
+  margin-top: 30px;
+  text-align: left;
+}
+
+.title{
+  font-size: 1.3rem;
   color: #333;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.infoSection ul {
-  list-style-type: none;
+.icon{
+  color: #4c4a8a;
+  font-size: 1.2rem;
+}
+
+.list{
+  list-style: none;
   padding: 0;
-  font-size: 1.1rem;
-  color: #555;
 }
 
-.infoSection ul li {
-  margin-bottom: 0.5rem;
+.listitem{
+  font-size: 1.05rem;
+  color: #444;
+  background-color: #f3f3fd;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.listitem:hover{
+  transform: scale(1.03);
+  background-color: #e4e2fb;
 }

@@ -1,24 +1,88 @@
+// HelpPage.jsx
 import React from "react";
+import style from "./HelpPage.module.css";
 import { motion } from "framer-motion";
-import styles from "./HelpPage.module.css";
 
 const Help = () => {
   return (
     <motion.div
-      className={styles.container}
-      initial={{ opacity: 0, y: 50 }}
+      className={style.wrapper}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className={styles.helpBox}>
-        <h2>Need Help?</h2>
-        <p>
-          We’re here to assist you! Whether you have questions about how to use the Smart Resume Analyzer, 
-          want to report a bug, or need guidance on improving your resume, our support team is ready to help.
-        </p>
-        <p>
-          Feel free to reach out anytime — your success is our priority!
-        </p>
+      <div className={style.card}>
+        <h1 className={style.heading}>How to Use Resumind</h1>
+        <h3 className={style.intro}>
+          Follow these simple steps to get the most accurate resume analysis and
+          boost your placement/internship chances!
+        </h3>
+
+        <motion.div
+          className={style.step}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1}}
+        >
+          <h2>Step 1: Choose Your Goal</h2>
+          <h3>
+            Select Internship or Placement to help us personalize your resume
+            feedback.
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className={style.step}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2 }}
+        >
+          <h2>Step 2: Upload Your Resume</h2>
+          <h3>
+            Upload your updated resume in PDF/DOCX format for accurate analysis.
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className={style.step}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 3 }}
+        >
+          <h2>Step 3: Get Your Resume Analyzed</h2>
+          <h3>
+            Our AI engine extracts key insights and gives you a detailed score
+            report.
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className={style.step}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 4}}
+        >
+          <h2>Step 4: Review Your Report</h2>
+          <h3>
+            Understand strengths, weaknesses, and get improvement suggestions
+            instantly.
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className={style.tips}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 5 }}
+        >
+          <h2>Tips to Improve Your Resume Score</h2>
+          <ul>
+            <li>Keep it short and clear – ideally 1–2 pages.</li>
+            <li>Use job-specific keywords and achievements.</li>
+            <li>Maintain a clean layout with sections.</li>
+            <li>Quantify your work (e.g., "Increased sales by 20%").</li>
+          </ul>
+        </motion.div>
       </div>
     </motion.div>
   );

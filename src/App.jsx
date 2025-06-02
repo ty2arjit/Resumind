@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import Contact from './Pages/ContactPage';
 import Help from './Pages/HelpPage';
 import Auth from './Pages/Auth';
+import Footer from './components/Footer';
 function App() {
   const [isAuthenticated,setAuthenticated] = useState(false);
   return (
@@ -17,9 +18,9 @@ function App() {
           {<Route path='/contact' element={<Contact />} />}
           {<Route path='/help' element={<Help />} />}
           <Route path='/auth' element={<Auth setAuthenticated={setAuthenticated}/>} />
-          {/* Future Routes */}
-          {/* <Route path='/profile' element={<Profile />} /> */}
+          {/*<Route path='/profile' element={<ProfileDashboard />} /> */}
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
