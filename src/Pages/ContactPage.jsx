@@ -10,6 +10,8 @@ const Phones = [
   "+91 7985170875",
   "+91 9520230163",
   "+91 8810811756",
+  "+91 9073576903",
+  "+91 9692369946"
 ];
 const Emails = [
   "ty2arjit@gmail.com",
@@ -23,7 +25,7 @@ const Contact = () => {
       className={style.wrapper}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 2 }}
     >
       <div className={style.card}>
         <h2 className={style.heading}>Contact Us</h2>

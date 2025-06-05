@@ -9,7 +9,7 @@ const Help = () => {
       className={style.wrapper}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 2 }}
     >
       <div className={style.card}>
         <h1 className={style.heading}>How to Use Resumind</h1>

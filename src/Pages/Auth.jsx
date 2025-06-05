@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Auth.module.css";
-
+import { motion} from "framer-motion";
 const Auth = ({ setAuthenticated }) => {
   const [isSignUp, setIsSignUp] = useState(true);
 
@@ -11,7 +11,11 @@ const Auth = ({ setAuthenticated }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <motion.div
+     initial = {{ opacity: 0, y:30}}
+     animate = {{ opacity : 1, y: 0}}
+     transition= {{duration : 2}}
+    className={styles.container}>
       <div className={styles.authBox}>
         <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -51,7 +55,7 @@ const Auth = ({ setAuthenticated }) => {
           </span>
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

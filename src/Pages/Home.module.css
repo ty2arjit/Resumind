@@ -25,7 +25,21 @@
   font-style:calc();
   font-size: 2.5rem;
   color: rgb(21, 5, 5);
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 1s steps(50,end) forwards;
 }
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+
 
 .textSection h1 span {
   color: #5a56a5;
