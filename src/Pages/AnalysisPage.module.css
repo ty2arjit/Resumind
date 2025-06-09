@@ -1,3 +1,8 @@
+.container{
+  background: linear-gradient(to right, #f7f1e3, #f5c868);
+  height: 100%;
+}
+
 .midSection{
   display: flex;
   justify-content: center;
@@ -72,6 +77,11 @@
   text-align: center;
   color: #333;
   border: 2px solid black;
+  width: 50%;
+  justify-content: center;
+  margin-left:250px;
+  margin-top: 130px;
+  border-radius: 20px;
 }
 
 .afterMidSection h2 {
@@ -96,4 +106,23 @@
   font-size: 1.5rem;
   color: #555;
 }
+
+.uploadGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.uploadStatus {
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #10b981; /* Tailwind's emerald-500 */
+}
+
+.uploadStatus.error {
+  color: #ef4444; /* Tailwind's red-500 */
+}
+
 

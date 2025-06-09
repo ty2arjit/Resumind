@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./AnalysisPage.module.css";
 import { motion } from "framer-motion";
 import AnalysisPageheader from "../components/AnalysisPageheader";
-import photo from "./analysispageimage.png";
 const MainPage = () => {
   const Fields = [
     "Software/IT",
@@ -21,12 +20,45 @@ const MainPage = () => {
     "Mining",
     "Industrial Design",
   ];
+
+  const [File, setFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    if (!File) {
+      return alert("Please select your resume file.");
+    }
+
+    const formData = new FormData();
+    formData.append("resume", File);
+
+    try {
+      const res = await axios.post("http://localhost:5000/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setUploadStatus(`✅ ${res.data.message}`);
+      console.log("Upload file path:", res.data.filePath);
+    } catch (error) {
+      setUploadStatus(
+        "❌ Upload failed: " + (error.response?.data?.error || "Server error")
+      );
+      console.error(error);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ durantion: 2 }}
-      /*className={style.container}*/
+      className={style.container}
     >
       <div /*className={style.content}*/>
         <div className={style.heading}>
@@ -53,7 +85,16 @@ const MainPage = () => {
                 <option value="placement">Placement</option>
               </select>
             </div>
-            <button className={style.uploadButton}>Upload Resume</button>
+            <div className={style.uploadGroup}>
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              className={style.fileInput}
+            />
+            <button onClick={handleFileUpload} className={style.uploadButton}>Upload Resume</button>
+            {uploadStatus && <p className={style.status}>{uploadStatus}</p>}
+            </div>
           </div>
           <div className={style.rightSection}>
             <video
