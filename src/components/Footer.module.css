@@ -1,0 +1,49 @@
+.footer{
+  background-color: rgb(40, 38, 38);
+  color:white;
+  padding: 30px 20px;
+  text-align: center;
+  font-family: 'Poppins',sans-serif;
+}
+
+.footerContent{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap:20px;
+}
+
+.brand h2{
+  margin:0;
+  font-size:1.5rem;
+}
+
+.brand p{
+  font-size:0.9rem;
+  margin-top: 4px;
+  color: #dcdcdc;
+}
+
+.links{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.links a{
+  color: #dcdcdc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.links a:hover{
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.copy{
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #bbb;
+}

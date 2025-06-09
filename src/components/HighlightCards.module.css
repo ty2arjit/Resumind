@@ -1,0 +1,35 @@
+.highlightcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(to right, #aacc4e, white , white);
+}
+
+.highlightcard {
+  background-color: rgb(174, 227, 228);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.highlightcard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.highlightcard h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #4c4a8a;
+  margin-bottom: 10px;
+}
+
+.highlightcard p {
+  font-size: 1.25rem;
+  color: #555;
+  line-height: 1.4;
+}

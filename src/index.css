@@ -1,0 +1,7 @@
+
+/* index.css */
+body {
+  background: linear-gradient(to right, #aacc4e, white , white);
+  min-height: 100vh;
+  margin: 0;
+}
