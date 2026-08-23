@@ -37,8 +37,13 @@ from Placement.gemini_resume_ME_placement import resume_analysis_ME_Placement
 from Placement.gemini_resume_MN_placement import resume_analysis_MN_Placement
 from Placement.gemini_resume_MT_placement import resume_analysis_MT_Placement
 from Placement.gemini_resume_VLSI_placement import resume_analysis_VLSI_Placement
-from Placement.gemini_resume_Analytics_placement import resume_analysis_Analytics_Placement 
+from Placement.gemini_resume_Analytics_placement import resume_analysis_Analytics_Placement
 
+from app.api.router import api_router
+from app.core.errors import register_exception_handlers
+from app.core.logging import configure_logging
+
+configure_logging()
 
 app = FastAPI()
 
@@ -49,6 +54,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+register_exception_handlers(app)
+
+# New Phase 1+ foundation (health check for now; resumes/jobs/analysis
+# routers get added here as each module is built). The legacy /analyze
+# endpoint below is untouched and remains the working analysis path
+# (Gemini-based, per architecture decision 4: development fallback only —
+# not part of the new ATS pipeline) until its replacement is validated.
+app.include_router(api_router)
 
 class ResumeData(BaseModel):
     resume_text: str

@@ -1,0 +1,373 @@
+// Resumind — Phase 1 schema foundation.
+//
+// Prisma is the single migration authority for this database (see
+// RESUMIND_ATS_MASTER_SPECIFICATION.md Phase 1 / architecture decisions).
+// FastAPI reads/writes the same tables via SQLAlchemy models that mirror
+// this schema (see Backend/fastapi_app/app/models) — it does not run its
+// own migrations, to avoid two tools fighting over one database.
+//
+// Field/table names are mapped to snake_case (@map/@@map) so the physical
+// schema is idiomatic Postgres regardless of which ORM touches it.
+
+// Using the classic JS generator (not the newer TS-output "prisma-client"
+// generator) so the client is directly `require()`-able — this project has
+// no TypeScript build step, and adding one just for the ORM client would be
+// more machinery than Phase 1 needs.
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum RequirementType {
+  SKILL
+  RESPONSIBILITY
+  EXPERIENCE
+  QUALIFICATION
+  PREFERRED_SKILL
+  DOMAIN_KNOWLEDGE
+  OTHER
+
+  @@map("requirement_type")
+}
+
+enum ImportanceLevel {
+  REQUIRED
+  PREFERRED
+  OPTIONAL
+  UNKNOWN
+
+  @@map("importance_level")
+}
+
+enum MatchStrength {
+  MISSING
+  WEAK
+  PARTIAL
+  STRONG
+  VERY_STRONG
+  UNKNOWN
+
+  @@map("match_strength")
+}
+
+enum AnalysisMode {
+  JD
+  TARGET_PROFILE
+  COMBINED
+
+  @@map("analysis_mode")
+}
+
+enum AnalysisStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+
+  @@map("analysis_status")
+}
+
+enum DocumentSourceType {
+  PDF
+  DOCX
+  TEXT
+
+  @@map("document_source_type")
+}
+
+// ---------------------------------------------------------------------------
+// Core entities
+// ---------------------------------------------------------------------------
+
+/// Auth system of record. Replaces the old MongoDB `User` collection —
+/// `mongoUserId` is kept only as an optional pointer back to a legacy Mongo
+/// document for any future data-migration reconciliation, it is not used
+/// by the live auth flow.
+model User {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mongoUserId  String?  @unique @map("mongo_user_id")
+  email        String   @unique
+  name         String
+  college      String?
+  password     String
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  resumes         Resume[]
+  jobDescriptions JobDescription[]
+  targetProfiles  TargetProfile[]
+  analyses        Analysis[]
+
+  @@map("users")
+}
+
+/// A resume the user has uploaded. Holds no content itself — content lives
+/// on ResumeVersion so re-uploads are tracked as history (§43).
+model Resume {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  title     String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  versions ResumeVersion[]
+
+  @@index([userId])
+  @@map("resumes")
+}
+
+/// One uploaded/parsed snapshot of a resume. `structuredData` is where the
+/// Phase 2 parser output (contact/education/experience/projects/skills per
+/// §8.1) will live; left nullable/untyped here since that shape is not yet
+/// defined.
+model ResumeVersion {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  resumeId         String             @map("resume_id") @db.Uuid
+  versionNumber    Int                @map("version_number")
+  sourceFilename   String?            @map("source_filename")
+  sourceType       DocumentSourceType @default(PDF) @map("source_type")
+  rawText          String?            @map("raw_text")
+  structuredData   Json?              @map("structured_data")
+  parserVersion    String?            @map("parser_version")
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamptz
+
+  resume    Resume     @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  analyses  Analysis[]
+
+  @@unique([resumeId, versionNumber])
+  @@index([resumeId])
+  @@map("resume_versions")
+}
+
+/// A job description, supplied as PDF or pasted text (§10).
+model JobDescription {
+  id             String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String             @map("user_id") @db.Uuid
+  title          String?
+  company        String?
+  sourceType     DocumentSourceType @default(TEXT) @map("source_type")
+  sourceFilename String?            @map("source_filename")
+  rawText        String             @map("raw_text")
+  structuredData Json?              @map("structured_data")
+  parserVersion  String?            @map("parser_version")
+  createdAt      DateTime           @default(now()) @map("created_at") @db.Timestamptz
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses     Analysis[]
+  requirements Requirement[]
+
+  @@index([userId])
+  @@map("job_descriptions")
+}
+
+/// A curated Position + Domain profile (§36-38). Most rows are expected to
+/// be system-seeded (isSystem = true), reusing the field/position taxonomy
+/// already present in the current frontend; userId is nullable so seed
+/// profiles aren't owned by any one account.
+model TargetProfile {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String?  @map("user_id") @db.Uuid
+  isSystem       Boolean  @default(false) @map("is_system")
+  position       String
+  domain         String?
+  profileVersion String   @default("v1") @map("profile_version")
+  profileData    Json?    @map("profile_data")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user         User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses     Analysis[]
+  requirements Requirement[]
+
+  @@index([userId])
+  @@index([position, domain])
+  @@map("target_profiles")
+}
+
+/// One analysis run (§40, §44). Every score field is nullable because a
+/// row is created in PENDING state before the (future) scoring engine has
+/// produced anything — this keeps Analysis usable as a request/job record
+/// from Phase 1 onward instead of only after scoring exists.
+model Analysis {
+  id                    String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String         @map("user_id") @db.Uuid
+  resumeVersionId       String         @map("resume_version_id") @db.Uuid
+  jobDescriptionId      String?        @map("job_description_id") @db.Uuid
+  targetProfileId       String?        @map("target_profile_id") @db.Uuid
+  mode                  AnalysisMode   @map("mode")
+  status                AnalysisStatus @default(PENDING) @map("status")
+
+  algorithmVersion      String?        @map("algorithm_version")
+  scoringConfigVersion  String?        @map("scoring_config_version")
+  embeddingModelVersion String?        @map("embedding_model_version")
+
+  atsAlignmentScore     Float?         @map("ats_alignment_score")
+  resumeQualityScore    Float?         @map("resume_quality_score")
+  targetFitScore        Float?         @map("target_fit_score")
+
+  errorMessage          String?        @map("error_message")
+  createdAt             DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  completedAt           DateTime?      @map("completed_at") @db.Timestamptz
+
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeVersion    ResumeVersion      @relation(fields: [resumeVersionId], references: [id], onDelete: Cascade)
+  jobDescription   JobDescription?    @relation(fields: [jobDescriptionId], references: [id], onDelete: SetNull)
+  targetProfile    TargetProfile?     @relation(fields: [targetProfileId], references: [id], onDelete: SetNull)
+
+  requirementMatches RequirementMatch[]
+  scoreBreakdowns    ScoreBreakdown[]
+  recommendations    Recommendation[]
+
+  @@index([userId])
+  @@index([resumeVersionId])
+  @@map("analyses")
+}
+
+/// A single extracted requirement, sourced from a JD and/or a target
+/// profile (§11-13). Both source FKs are nullable — at least one is
+/// expected to be set, enforced in application code rather than a DB
+/// constraint for now.
+model Requirement {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jobDescriptionId String?          @map("job_description_id") @db.Uuid
+  targetProfileId  String?          @map("target_profile_id") @db.Uuid
+
+  text             String
+  type             RequirementType  @map("type")
+  canonicalEntity  String?          @map("canonical_entity")
+  importance       ImportanceLevel  @default(UNKNOWN) @map("importance")
+  critical         Boolean          @default(false)
+  weight           Float            @default(1.0)
+  confidence       Float?
+  sourceSection    String?          @map("source_section")
+  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  jobDescription JobDescription?     @relation(fields: [jobDescriptionId], references: [id], onDelete: Cascade)
+  targetProfile  TargetProfile?      @relation(fields: [targetProfileId], references: [id], onDelete: Cascade)
+  matches        RequirementMatch[]
+
+  @@index([jobDescriptionId])
+  @@index([targetProfileId])
+  @@map("requirements")
+}
+
+/// The result of matching one Requirement against one Analysis's resume
+/// (§17, §26). Signal columns mirror the scoring formula components
+/// (w_k/w_s/w_e/w_c) so a score can be explained back to its inputs.
+model RequirementMatch {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  analysisId     String        @map("analysis_id") @db.Uuid
+  requirementId  String        @map("requirement_id") @db.Uuid
+
+  matchStrength  MatchStrength @default(UNKNOWN) @map("match_strength")
+  score          Float?
+
+  keywordSignal  Float?        @map("keyword_signal")
+  semanticSignal Float?        @map("semantic_signal")
+  evidenceSignal Float?        @map("evidence_signal")
+  contextSignal  Float?        @map("context_signal")
+
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  analysis    Analysis    @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  requirement Requirement @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  evidence    Evidence[]
+
+  @@unique([analysisId, requirementId])
+  @@index([analysisId])
+  @@index([requirementId])
+  @@map("requirement_matches")
+}
+
+/// A resume bullet/snippet retrieved as support for a RequirementMatch
+/// (§9, §24-25). The original text is always preserved for explainability.
+model Evidence {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requirementMatchId String   @map("requirement_match_id") @db.Uuid
+
+  text               String
+  section            String?
+  position            String?
+  technologies       Json?
+  actions            Json?
+  objects            Json?
+  metrics            Json?
+  relevanceScore     Float?   @map("relevance_score")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  requirementMatch RequirementMatch @relation(fields: [requirementMatchId], references: [id], onDelete: Cascade)
+
+  @@index([requirementMatchId])
+  @@map("evidence")
+}
+
+/// A rule-based recommendation attached to an Analysis (§41).
+model Recommendation {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  analysisId String   @map("analysis_id") @db.Uuid
+
+  text       String
+  category   String?
+  priority   Int?
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  analysis Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@map("recommendations")
+}
+
+/// One category's contribution to an Analysis's overall score (§27-28).
+model ScoreBreakdown {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  analysisId String   @map("analysis_id") @db.Uuid
+
+  category   String
+  score      Float
+  weight     Float
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  analysis Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@map("score_breakdowns")
+}
+
+/// A labelled benchmark case for the future evaluation framework (§52-56).
+model EvaluationCase {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  jobDescriptionText String  @map("job_description_text")
+  resumeText        String   @map("resume_text")
+  groundTruth       Json     @map("ground_truth")
+  humanOverallScore Float?   @map("human_overall_score")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  results EvaluationResult[]
+
+  @@map("evaluation_cases")
+}
+
+/// One benchmark run's result for one EvaluationCase, tied to the
+/// algorithm version it was measured against (§56 — regression testing).
+model EvaluationResult {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  evaluationCaseId String   @map("evaluation_case_id") @db.Uuid
+  algorithmVersion String   @map("algorithm_version")
+  metrics          Json
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  evaluationCase EvaluationCase @relation(fields: [evaluationCaseId], references: [id], onDelete: Cascade)
+
+  @@index([evaluationCaseId])
+  @@map("evaluation_results")
+}
