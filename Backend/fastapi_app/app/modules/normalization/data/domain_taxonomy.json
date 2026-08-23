@@ -1,0 +1,35 @@
+{
+  "knowledge_version": "KNOWLEDGE_V1",
+  "domains": [
+    {
+      "canonical_domain": "TECHNOLOGY",
+      "parent_domain": null,
+      "aliases": ["Tech", "Technology", "IT"]
+    },
+    {
+      "canonical_domain": "FINTECH",
+      "parent_domain": "TECHNOLOGY",
+      "aliases": ["FinTech", "Financial Technology", "Financial Tech"]
+    },
+    {
+      "canonical_domain": "HEALTHTECH",
+      "parent_domain": "TECHNOLOGY",
+      "aliases": ["HealthTech", "Healthcare Technology", "Health Tech"]
+    },
+    {
+      "canonical_domain": "EDTECH",
+      "parent_domain": "TECHNOLOGY",
+      "aliases": ["EdTech", "Education Technology", "Ed Tech"]
+    },
+    {
+      "canonical_domain": "BIOTECH",
+      "parent_domain": "TECHNOLOGY",
+      "aliases": ["BioTech", "Biotechnology", "Bio Tech"]
+    },
+    {
+      "canonical_domain": "ECOMMERCE",
+      "parent_domain": "TECHNOLOGY",
+      "aliases": ["E-commerce", "Ecommerce", "E-Commerce"]
+    }
+  ]
+}

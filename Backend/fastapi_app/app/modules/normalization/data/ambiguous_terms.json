@@ -1,0 +1,9 @@
+{
+  "knowledge_version": "KNOWLEDGE_V1",
+  "terms": [
+    {
+      "term": "Spring",
+      "reason": "Could mean Spring Framework, Spring Boot, Spring MVC, Spring Cloud, or the season/name — too ambiguous to resolve without more context (spec §20's own example)."
+    }
+  ]
+}
