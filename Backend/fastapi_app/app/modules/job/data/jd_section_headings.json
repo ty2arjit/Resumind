@@ -1,0 +1,19 @@
+{
+  "ABOUT_COMPANY": ["about the company", "about us", "company overview", "who we are"],
+  "SUMMARY": ["about the role", "job summary", "position summary", "role overview", "overview", "the role"],
+  "RESPONSIBILITIES": ["responsibilities", "key responsibilities", "what you'll do", "what you will do", "duties", "job duties", "your role"],
+  "QUALIFICATIONS_REQUIRED": [
+    "requirements", "qualifications", "basic qualifications", "required qualifications",
+    "must have", "must haves", "required skills", "minimum qualifications", "minimum requirements",
+    "required"
+  ],
+  "QUALIFICATIONS_PREFERRED": [
+    "preferred qualifications", "preferred skills", "nice to have", "nice to haves",
+    "bonus points", "good to have", "preferred"
+  ],
+  "SKILLS": ["skills", "technical skills", "skills required", "tech stack"],
+  "EXPERIENCE": ["experience"],
+  "EDUCATION": ["education", "educational requirements"],
+  "BENEFITS": ["benefits", "perks", "what we offer", "compensation and benefits"],
+  "ABOUT_YOU": ["about you", "who you are"]
+}
