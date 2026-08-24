@@ -1,0 +1,19 @@
+fastapi
+uvicorn
+python-multipart
+google-generativeai
+PyMuPDF
+python-docx
+python-dotenv
+
+# Phase 1 foundation
+pydantic-settings
+sqlalchemy[asyncio]
+asyncpg
+pytest
+pytest-asyncio
+httpx
+
+# Phase 5 — hybrid matching
+scikit-learn
+sentence-transformers

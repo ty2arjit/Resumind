@@ -1,0 +1,37 @@
+[
+  "Python", "Java", "JavaScript", "TypeScript", "C++", "C#", "Go", "Golang",
+  "Rust", "Kotlin", "Swift", "PHP", "Ruby", "Scala", "MATLAB",
+  "Dart", "Perl", "Objective-C",
+
+  "React", "React.js", "ReactJS", "Angular", "Angular.js", "Vue", "Vue.js",
+  "Next.js", "NextJS", "Nuxt.js", "Svelte", "jQuery", "Bootstrap",
+  "Tailwind", "Tailwind CSS", "Redux", "Node.js", "NodeJS", "Express",
+  "Express.js", "FastAPI", "Flask", "Django", "Spring", "Spring Boot",
+  "ASP.NET", ".NET", "Ruby on Rails", "Rails", "Laravel", "GraphQL",
+  "gRPC", "WebSocket",
+
+  "TensorFlow", "PyTorch", "Keras", "scikit-learn", "Pandas", "NumPy",
+  "OpenCV", "Matplotlib", "Machine Learning", "Deep Learning",
+  "Natural Language Processing", "NLP", "Computer Vision",
+
+  "MySQL", "PostgreSQL", "Postgres", "MongoDB", "SQLite", "Redis",
+  "Cassandra", "DynamoDB", "Oracle", "MariaDB", "Firebase", "Firestore",
+  "Elasticsearch", "SQL", "NoSQL",
+
+  "AWS", "Azure", "GCP", "Google Cloud", "Google Cloud Platform",
+  "EC2", "S3", "Lambda", "Docker", "Kubernetes", "Terraform", "Ansible",
+  "Jenkins", "CircleCI", "GitHub Actions", "CI/CD", "Nginx", "Apache",
+
+  "Git", "GitHub", "GitLab", "Bitbucket", "JIRA", "Postman", "Figma",
+  "Linux", "Unix", "Bash", "Shell", "PowerShell",
+
+  "HTML", "HTML5", "CSS", "CSS3", "SASS", "SCSS",
+
+  "Kafka", "RabbitMQ", "Hadoop", "Spark", "Apache Spark", "Airflow",
+
+  "React Native", "Flutter", "Android", "iOS", "Xcode",
+
+  "Solidity", "Blockchain", "Web3",
+
+  "Selenium", "JUnit", "PyTest", "Jest", "Mocha", "Cypress"
+]

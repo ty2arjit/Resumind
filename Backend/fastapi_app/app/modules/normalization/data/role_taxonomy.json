@@ -1,0 +1,69 @@
+{
+  "knowledge_version": "KNOWLEDGE_V1",
+  "roles": [
+    {
+      "canonical_role": "SOFTWARE_ENGINEER",
+      "parent_role": null,
+      "aliases": ["Software Engineer", "Software Developer", "SDE", "Software Development Engineer"]
+    },
+    {
+      "canonical_role": "BACKEND_SOFTWARE_ENGINEER",
+      "parent_role": "SOFTWARE_ENGINEER",
+      "aliases": [
+        "Backend Developer", "Backend Engineer", "Backend Software Engineer",
+        "Server-side Developer", "Server-side Engineer", "SDE Backend",
+        "Software Engineer - Backend"
+      ]
+    },
+    {
+      "canonical_role": "FRONTEND_ENGINEER",
+      "parent_role": "SOFTWARE_ENGINEER",
+      "aliases": ["Frontend Developer", "Frontend Engineer", "Front-end Developer", "Front-end Engineer", "UI Engineer"]
+    },
+    {
+      "canonical_role": "FULL_STACK_ENGINEER",
+      "parent_role": "SOFTWARE_ENGINEER",
+      "aliases": ["Full Stack Developer", "Full Stack Engineer", "Full-Stack Engineer", "Fullstack Developer"]
+    },
+    {
+      "canonical_role": "MOBILE_ENGINEER",
+      "parent_role": "SOFTWARE_ENGINEER",
+      "aliases": ["Mobile Developer", "Mobile Engineer", "Mobile Software Engineer"]
+    },
+    {
+      "canonical_role": "DATA_ENGINEER",
+      "parent_role": null,
+      "aliases": ["Data Engineer", "Big Data Engineer"]
+    },
+    {
+      "canonical_role": "DATA_SCIENTIST",
+      "parent_role": null,
+      "aliases": ["Data Scientist", "Applied Scientist"]
+    },
+    {
+      "canonical_role": "ML_ENGINEER",
+      "parent_role": null,
+      "aliases": ["ML Engineer", "Machine Learning Engineer", "AI Engineer"]
+    },
+    {
+      "canonical_role": "DEVOPS_ENGINEER",
+      "parent_role": null,
+      "aliases": ["DevOps Engineer", "Site Reliability Engineer", "SRE", "Infrastructure Engineer"]
+    },
+    {
+      "canonical_role": "CLOUD_ENGINEER",
+      "parent_role": null,
+      "aliases": ["Cloud Engineer", "Cloud Architect", "Cloud Solutions Engineer"]
+    },
+    {
+      "canonical_role": "QA_ENGINEER",
+      "parent_role": null,
+      "aliases": ["QA Engineer", "Quality Assurance Engineer", "Test Engineer", "SDET"]
+    },
+    {
+      "canonical_role": "SECURITY_ENGINEER",
+      "parent_role": null,
+      "aliases": ["Security Engineer", "Application Security Engineer", "Cybersecurity Engineer"]
+    }
+  ]
+}

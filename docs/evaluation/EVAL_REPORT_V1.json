@@ -1,0 +1,301 @@
+{
+  "evaluation_version": "EVAL_V1",
+  "dataset_version": "EVAL_DATASET_V1",
+  "scoring_config_version": "SCORING_CONFIG_V1",
+  "cases": 15,
+  "matching_metrics": {
+    "precision": 0.75,
+    "recall": 0.75,
+    "f1": 0.75,
+    "counts": {
+      "true_positive": 3,
+      "false_positive": 1,
+      "true_negative": 10,
+      "false_negative": 1
+    },
+    "bucket_accuracy": 0.8
+  },
+  "false_positives": [
+    {
+      "case_id": "CASE_F1_PARTIAL_SKILL_MENTION",
+      "category": "PARTIAL_REQUIREMENT",
+      "requirement_text": "Experience with Python.",
+      "expected_bucket": "partial",
+      "actual_status": "STRONG",
+      "kind": "FALSE_POSITIVE"
+    }
+  ],
+  "false_negatives": [
+    {
+      "case_id": "CASE_B1_CANONICAL_POSTGRES_ALIAS",
+      "category": "CANONICAL_MATCH",
+      "requirement_text": "Experience with PostgreSQL.",
+      "expected_bucket": "matches",
+      "actual_status": "PARTIAL",
+      "kind": "FALSE_NEGATIVE"
+    },
+    {
+      "case_id": "CASE_C1_SEMANTIC_DB_OPTIMIZATION",
+      "category": "SEMANTIC_MATCH",
+      "requirement_text": "Optimize database performance.",
+      "expected_bucket": "partial",
+      "actual_status": "MISSING",
+      "kind": "FALSE_NEGATIVE"
+    }
+  ],
+  "score_statistics": {
+    "count": 15,
+    "minimum": 0.0,
+    "maximum": 100.0,
+    "mean": 34.0,
+    "near_zero_count": 9,
+    "near_hundred_count": 2
+  },
+  "performance": [
+    {
+      "stage": "resume_parsing",
+      "mean_ms": 3.855458472389728,
+      "max_ms": 6.474207999417558,
+      "samples": 15
+    },
+    {
+      "stage": "jd_parsing",
+      "mean_ms": 0.13943339969652394,
+      "max_ms": 0.24383398704230785,
+      "samples": 15
+    },
+    {
+      "stage": "scoring_total",
+      "mean_ms": 907.6484472704275,
+      "max_ms": 13196.14562499919,
+      "samples": 15
+    }
+  ],
+  "case_results": [
+    {
+      "case_id": "CASE_A1_EXACT_PYTHON",
+      "category": "EXACT_MATCH",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Python.",
+          "expected_bucket": "matches",
+          "actual_status": "STRONG",
+          "actual_score": 0.845176,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 85
+    },
+    {
+      "case_id": "CASE_B1_CANONICAL_POSTGRES_ALIAS",
+      "category": "CANONICAL_MATCH",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with PostgreSQL.",
+          "expected_bucket": "matches",
+          "actual_status": "PARTIAL",
+          "actual_score": 0.587597,
+          "correct": false
+        }
+      ],
+      "all_correct": false,
+      "ats_alignment": 59
+    },
+    {
+      "case_id": "CASE_C1_SEMANTIC_DB_OPTIMIZATION",
+      "category": "SEMANTIC_MATCH",
+      "requirement_results": [
+        {
+          "requirement_text": "Optimize database performance.",
+          "expected_bucket": "partial",
+          "actual_status": "MISSING",
+          "actual_score": 0.056588,
+          "correct": false
+        }
+      ],
+      "all_correct": false,
+      "ats_alignment": 6
+    },
+    {
+      "case_id": "CASE_D1_DISTINCT_KUBERNETES_DOCKER",
+      "category": "DISTINCT_TECHNOLOGY",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Kubernetes.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.035724,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 4
+    },
+    {
+      "case_id": "CASE_D2_DISTINCT_AWS_AZURE",
+      "category": "DISTINCT_TECHNOLOGY",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with AWS.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.027262,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 3
+    },
+    {
+      "case_id": "CASE_D3_DISTINCT_JAVA_JAVASCRIPT",
+      "category": "DISTINCT_TECHNOLOGY",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Java.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.035841,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 4
+    },
+    {
+      "case_id": "CASE_D4_DISTINCT_REACT_REACT_NATIVE",
+      "category": "DISTINCT_TECHNOLOGY",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with React.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.093733,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 9
+    },
+    {
+      "case_id": "CASE_E1_MISSING_NO_MENTION",
+      "category": "MISSING_SKILL",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Kubernetes.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.017353,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 2
+    },
+    {
+      "case_id": "CASE_F1_PARTIAL_SKILL_MENTION",
+      "category": "PARTIAL_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Python.",
+          "expected_bucket": "partial",
+          "actual_status": "STRONG",
+          "actual_score": 0.855538,
+          "correct": false
+        }
+      ],
+      "all_correct": false,
+      "ats_alignment": 86
+    },
+    {
+      "case_id": "CASE_I1_CRITICAL_MISSING",
+      "category": "CRITICAL_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "Experience with Kubernetes.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.015862,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 2
+    },
+    {
+      "case_id": "CASE_J1_EXPERIENCE_UNKNOWN_NO_DATES",
+      "category": "EXPERIENCE_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "3+ years of experience with Python.",
+          "expected_bucket": "unknown",
+          "actual_status": "UNKNOWN",
+          "actual_score": 0.5,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 50
+    },
+    {
+      "case_id": "CASE_J2_EXPERIENCE_VERY_STRONG",
+      "category": "EXPERIENCE_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "3+ years of experience with Python.",
+          "expected_bucket": "matches",
+          "actual_status": "VERY_STRONG",
+          "actual_score": 1.0,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 100
+    },
+    {
+      "case_id": "CASE_K1_QUALIFICATION_MATCHING_DEGREE",
+      "category": "QUALIFICATION_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "Bachelor's degree in Computer Science.",
+          "expected_bucket": "matches",
+          "actual_status": "VERY_STRONG",
+          "actual_score": 1.0,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 100
+    },
+    {
+      "case_id": "CASE_K2_QUALIFICATION_UNRELATED_DEGREE",
+      "category": "QUALIFICATION_REQUIREMENT",
+      "requirement_results": [
+        {
+          "requirement_text": "Bachelor's degree in Computer Science.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.0,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 0
+    },
+    {
+      "case_id": "CASE_Q1_CONFIDENT_ABSENCE_VS_UNKNOWN",
+      "category": "UNKNOWN_EVIDENCE",
+      "requirement_results": [
+        {
+          "requirement_text": "2+ years of experience with Python.",
+          "expected_bucket": "missing",
+          "actual_status": "MISSING",
+          "actual_score": 0.0,
+          "correct": true
+        }
+      ],
+      "all_correct": true,
+      "ats_alignment": 0
+    }
+  ]
+}
