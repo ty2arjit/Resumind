@@ -21,28 +21,28 @@ const Auth = ({ setAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const endpoint = isSignUp ? "signup" : "signin";
+    const endpoint = isSignUp ? "signup" : "login";
     const payload = isSignUp
       ? form
       : { email: form.email, password: form.password };
-  
+
     try {
-      const res = await axios.post(`http://127.0.0.1:8000/api/auth/${endpoint}`, payload);
-      
-      if (res.status === 200 || res.status === 201) {
-        const { user, token } = res.data;
-  
-        // 🔐 Store in localStorage
-        localStorage.setItem("resumindUser", JSON.stringify(user));
-        localStorage.setItem("resumindToken", token);
-  
-        setAuthenticated(true);
+      const res = await axios.post(`http://localhost:3000/auth/${endpoint}`, payload);
+
+      if (res.data.success) {
+        if (!isSignUp) {
+          const { jwtToken, email, name } = res.data;
+          localStorage.setItem("resumindUser", JSON.stringify({ email, name }));
+          localStorage.setItem("resumindToken", jwtToken);
+          setAuthenticated(true);
+        }
         alert(isSignUp ? "Signed up successfully!" : "Logged in successfully!");
-        navigate("/");
+        navigate(isSignUp ? "/auth" : "/");
+        if (isSignUp) setIsSignUp(false);
       }
     } catch (err) {
       console.error("Axios error:", err);
-      alert(err.response?.data?.error || `${isSignUp ? "Signup" : "Signin"} failed`);
+      alert(err.response?.data?.message || `${isSignUp ? "Signup" : "Login"} failed`);
     }
   };
 

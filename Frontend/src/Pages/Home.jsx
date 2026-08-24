@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import styles from "./Home.module.css";
-import HighlightCards from "../components/HighlightCards";
+import HighlightCards from "../Components/HighlightCards";
 import { useNavigate } from "react-router-dom";
 import video from './resume-animation.mp4';
 const Home = () => {

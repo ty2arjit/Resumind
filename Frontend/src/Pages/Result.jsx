@@ -2,7 +2,7 @@ import css from "./Result.module.css";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import ResultDisplay from "../components/ResultDisplay";
+import ResultDisplay from "../Components/ResultDisplay";
 const ResultPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();

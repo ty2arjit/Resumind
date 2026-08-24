@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import style from "./AnalysisPage.module.css";
 import { motion } from "framer-motion";
-import AnalysisPageheader from "../components/AnalysisPageheader";
-import Loader from "../components/Loader";
+import AnalysisPageheader from "../Components/AnalysisPageheader";
+import Loader from "../Components/Loader";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import animation from './mainpageanimation.mp4'
@@ -17,6 +17,8 @@ const MainPage = () => {
     "Civil",
     "Ceramic",
     "Electrical",
+    "Electronics & Communication",
+    "Electronics & Instrumentation",
     "Food Processing",
     "Industrial Design",
     "Mechanical",
@@ -105,8 +107,8 @@ const MainPage = () => {
                 onChange={(e) => setpositionType(e.target.value)}
               >
                 <option value="">Select Purpose</option>
-                <option value="internship">Internship</option>
-                <option value="placement">Placement</option>
+                <option value="Intern">Internship</option>
+                <option value="Placement">Placement</option>
               </select>
             </div>
             <div className={style.uploadGroup}>
