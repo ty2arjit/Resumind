@@ -1,0 +1,133 @@
+{
+  "knowledge_version": "TARGET_PROFILE_V1",
+  "position_profiles": {
+    "SOFTWARE_ENGINEER": {
+      "core_skills": ["Python", "Java", "Data Structures", "Algorithms", "Git"],
+      "technologies": ["Linux", "SQL", "REST APIs"],
+      "responsibilities": ["Write maintainable code", "Debug production issues", "Participate in code review", "Collaborate with cross-functional teams"],
+      "experience_expectations": ["software development", "collaborative engineering"],
+      "preferred_skills": ["CI/CD", "Testing frameworks"]
+    },
+    "BACKEND_SOFTWARE_ENGINEER": {
+      "core_skills": ["Python", "Java", "SQL", "REST APIs"],
+      "technologies": ["PostgreSQL", "Redis", "Docker", "AWS"],
+      "responsibilities": ["Build backend services", "Develop APIs", "Design database systems", "Optimize performance", "Implement authentication"],
+      "experience_expectations": ["backend development", "API development", "database experience"],
+      "preferred_skills": ["Kafka", "Kubernetes", "distributed systems"]
+    },
+    "FRONTEND_ENGINEER": {
+      "core_skills": ["JavaScript", "TypeScript", "React", "HTML", "CSS"],
+      "technologies": ["Webpack", "REST APIs", "GraphQL"],
+      "responsibilities": ["Build user interfaces", "Implement responsive design", "Optimize frontend performance", "Collaborate with designers"],
+      "experience_expectations": ["frontend development", "UI implementation"],
+      "preferred_skills": ["Next.js", "accessibility", "component libraries"]
+    },
+    "FULL_STACK_ENGINEER": {
+      "core_skills": ["JavaScript", "Python", "SQL", "React"],
+      "technologies": ["Node.js", "PostgreSQL", "REST APIs", "Docker"],
+      "responsibilities": ["Build end-to-end features", "Develop APIs", "Build user interfaces", "Design database schemas"],
+      "experience_expectations": ["full-stack development", "API development", "frontend development"],
+      "preferred_skills": ["TypeScript", "Kubernetes", "CI/CD"]
+    },
+    "MOBILE_ENGINEER": {
+      "core_skills": ["Swift", "Kotlin", "Mobile UI design"],
+      "technologies": ["iOS SDK", "Android SDK", "REST APIs"],
+      "responsibilities": ["Build mobile applications", "Optimize app performance", "Integrate with backend APIs", "Ship to app stores"],
+      "experience_expectations": ["mobile app development", "native mobile engineering"],
+      "preferred_skills": ["React Native", "Flutter", "offline-first architecture"]
+    },
+    "DATA_ENGINEER": {
+      "core_skills": ["Python", "SQL", "ETL", "Data modeling"],
+      "technologies": ["Apache Spark", "Airflow", "PostgreSQL", "AWS"],
+      "responsibilities": ["Build data pipelines", "Design data warehouses", "Ensure data quality", "Optimize query performance"],
+      "experience_expectations": ["data pipeline development", "data warehousing"],
+      "preferred_skills": ["Kafka", "dbt", "distributed systems"]
+    },
+    "DATA_SCIENTIST": {
+      "core_skills": ["Python", "Statistics", "SQL", "Machine Learning"],
+      "technologies": ["pandas", "scikit-learn", "Jupyter"],
+      "responsibilities": ["Build predictive models", "Analyze data", "Communicate insights", "Design experiments"],
+      "experience_expectations": ["data analysis", "statistical modeling"],
+      "preferred_skills": ["deep learning", "A/B testing", "big data tools"]
+    },
+    "ML_ENGINEER": {
+      "core_skills": ["Python", "Machine Learning", "Deep Learning", "SQL"],
+      "technologies": ["PyTorch", "TensorFlow", "Docker", "AWS"],
+      "responsibilities": ["Build and deploy ML models", "Design training pipelines", "Optimize model performance", "Monitor models in production"],
+      "experience_expectations": ["machine learning engineering", "model deployment"],
+      "preferred_skills": ["MLOps", "Kubernetes", "distributed training"]
+    },
+    "DEVOPS_ENGINEER": {
+      "core_skills": ["Linux", "Scripting", "CI/CD", "Networking"],
+      "technologies": ["Docker", "Kubernetes", "Terraform", "AWS"],
+      "responsibilities": ["Build CI/CD pipelines", "Manage infrastructure as code", "Ensure system reliability", "Automate deployments"],
+      "experience_expectations": ["infrastructure automation", "site reliability"],
+      "preferred_skills": ["Prometheus", "Grafana", "Helm"]
+    },
+    "CLOUD_ENGINEER": {
+      "core_skills": ["Cloud architecture", "Networking", "Linux", "Scripting"],
+      "technologies": ["AWS", "Azure", "Terraform", "Docker"],
+      "responsibilities": ["Design cloud infrastructure", "Manage cloud cost and security", "Automate provisioning", "Ensure high availability"],
+      "experience_expectations": ["cloud infrastructure management", "infrastructure as code"],
+      "preferred_skills": ["Kubernetes", "multi-cloud architecture"]
+    },
+    "QA_ENGINEER": {
+      "core_skills": ["Test design", "Manual testing", "SQL", "Debugging"],
+      "technologies": ["Selenium", "Postman", "CI/CD"],
+      "responsibilities": ["Design test plans", "Automate test suites", "Report and track defects", "Validate releases"],
+      "experience_expectations": ["software testing", "test automation"],
+      "preferred_skills": ["performance testing", "API testing"]
+    },
+    "SECURITY_ENGINEER": {
+      "core_skills": ["Application security", "Networking", "Cryptography", "Linux"],
+      "technologies": ["SIEM tools", "Penetration testing tools", "Cloud security"],
+      "responsibilities": ["Assess vulnerabilities", "Implement security controls", "Respond to incidents", "Review code for security issues"],
+      "experience_expectations": ["security engineering", "vulnerability assessment"],
+      "preferred_skills": ["threat modeling", "compliance frameworks"]
+    }
+  },
+  "domain_profiles": {
+    "TECHNOLOGY": {
+      "domain_knowledge": ["software products", "agile development"],
+      "core_skills": [],
+      "technologies": [],
+      "responsibilities": [],
+      "preferred_skills": []
+    },
+    "FINTECH": {
+      "domain_knowledge": ["payments", "transactions", "financial data", "security", "compliance"],
+      "core_skills": [],
+      "technologies": ["PostgreSQL"],
+      "responsibilities": ["Ensure regulatory compliance", "Handle sensitive financial data securely"],
+      "preferred_skills": ["fraud detection", "PCI-DSS"]
+    },
+    "HEALTHTECH": {
+      "domain_knowledge": ["healthcare", "clinical systems", "medical data", "HIPAA compliance"],
+      "core_skills": [],
+      "technologies": [],
+      "responsibilities": ["Handle protected health information securely", "Integrate with clinical systems"],
+      "preferred_skills": ["HL7", "FHIR"]
+    },
+    "EDTECH": {
+      "domain_knowledge": ["learning management systems", "student data privacy", "curriculum design"],
+      "core_skills": [],
+      "technologies": [],
+      "responsibilities": ["Build learning experiences", "Ensure accessibility for diverse learners"],
+      "preferred_skills": ["LTI integration", "adaptive learning"]
+    },
+    "BIOTECH": {
+      "domain_knowledge": ["biotechnology", "molecular biology", "genomics", "laboratory workflows"],
+      "core_skills": [],
+      "technologies": [],
+      "responsibilities": ["Support laboratory data workflows", "Ensure scientific data integrity"],
+      "preferred_skills": ["bioinformatics", "LIMS systems"]
+    },
+    "ECOMMERCE": {
+      "domain_knowledge": ["online retail", "checkout flows", "inventory management", "customer data"],
+      "core_skills": [],
+      "technologies": ["Redis"],
+      "responsibilities": ["Optimize checkout conversion", "Handle high-traffic seasonal load"],
+      "preferred_skills": ["recommendation systems", "search relevance"]
+    }
+  }
+}
