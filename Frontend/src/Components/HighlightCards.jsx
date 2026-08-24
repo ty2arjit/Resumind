@@ -1,40 +1,43 @@
-import React from "react";
-import styles from './HighlightCards.module.css';
+import { BarChart3, FileSearch, ListChecks, Target } from 'lucide-react';
+import { BaseCard } from './design-system';
 
 const features = [
   {
-    title: "Smart Resume Analysis",
-    description: "AI analyzes your resume contextually for structure, content, and clearity."
+    icon: FileSearch,
+    title: 'Requirement-level matching',
+    description: 'Every skill and responsibility in the job description is matched against specific evidence in your resume.',
   },
   {
-    title: "Domain-Specific Feedback",
-    description: "Feedback is tailored based on your selected job domain."
+    icon: Target,
+    title: 'Target Profile fit',
+    description: "No job description yet? Benchmark your resume against a position and domain instead — e.g. Backend Engineer, FinTech.",
   },
   {
-    title: "Internship vs Placement Modes",
-    description: "Different criteria for internships and placements to ensure fair evaluations. "
+    icon: ListChecks,
+    title: 'Resume Quality scoring',
+    description: 'A separate, structure-and-evidence score — independent of any specific job — covering parseability, dates, and content density.',
   },
   {
-    title: "Resume Scoring System",
-    description: "Get a visual score and suggestions to improve your resume instantly."
-  }
+    icon: BarChart3,
+    title: 'Priority-ranked gaps',
+    description: 'Missing and partial requirements are ranked by how much they affect your score, so you know what to fix first.',
+  },
 ];
 
 const HighlightCards = () => {
   return (
-    <div className={styles.container}>
-    {features.map((feature,index) => (
-      <div key={index} className={styles.card}>
-      <h3>
-        {feature.title}
-      </h3>
-      <p>
-        {feature.description}
-      </p>
-      </div>
-    ))}
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {features.map((feature) => (
+        <BaseCard key={feature.title} hoverable>
+          <span className="inline-flex rounded-md bg-soft-brand p-2 text-primary">
+            <feature.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+          </span>
+          <h3 className="mt-4 text-h4 font-semibold text-text-primary">{feature.title}</h3>
+          <p className="mt-1.5 text-body-sm text-text-secondary">{feature.description}</p>
+        </BaseCard>
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export default HighlightCards;
