@@ -1,62 +1,36 @@
-import css from "./Result.module.css";
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import ResultDisplay from "../Components/ResultDisplay";
+import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, EmptyState } from '../Components/design-system';
+import ResultDisplay from '../Components/ResultDisplay';
+
 const ResultPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const result = state?.result;
 
   if (!result) {
-    <div className={css.noData}>
-      <h2>No analysis data found</h2>
-      <button onClick={() => navigate("/analyse")}>Go Back</button>
-    </div>;
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-16 md:px-8">
+        <EmptyState
+          title="No analysis data found"
+          description="Analyze a resume first to see your results here."
+          action={<Button onClick={() => navigate('/analyse')}>Analyze a resume</Button>}
+        />
+      </div>
+    );
   }
-
-  console.log("State result:", result);
-
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.2 }}
-      className={css.page}
+      transition={{ duration: 0.4 }}
+      className="mx-auto max-w-3xl px-4 py-16 md:px-8"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2 }}
-        className={css.wrapper}
-      >
-      {/*
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2 }}
-          className={css.firstcontainer}
-        >
-        </motion.div>*/}
-      
-      <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2 }}
-          >
-            {/*<h1 className={css.header}>📊 Your Resume Analysis:</h1>*/}
-            <div>
-              <ResultDisplay resultText={result} />
-            </div>
-            <button
-              onClick={() => navigate("/analyse")}
-              className={css.backButton}
-            >
-              Analyse Another Resume
-            </button>
-          </motion.div>
-          </motion.div>
+      <ResultDisplay resultText={result} />
+      <Button variant="secondary" size="lg" onClick={() => navigate('/analyse')} className="mt-8">
+        Analyze another resume
+      </Button>
     </motion.div>
   );
 };

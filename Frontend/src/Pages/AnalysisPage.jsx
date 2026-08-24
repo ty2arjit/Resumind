@@ -1,173 +1,109 @@
-import React, { useState } from "react";
-import style from "./AnalysisPage.module.css";
-import { motion } from "framer-motion";
-import AnalysisPageheader from "../Components/AnalysisPageheader";
-import Loader from "../Components/Loader";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import animation from './mainpageanimation.mp4'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Check } from 'lucide-react';
+import AnalysisPageheader from '../Components/AnalysisPageheader';
+import Loader from '../Components/Loader';
+import { Button, ErrorState, FileUpload, SectionCard, Select } from '../Components/design-system';
+import animation from './mainpageanimation.mp4';
+
+const FIELDS = [
+  'Software/IT', 'Analytics', 'VLSI', 'Biomedical', 'Biotechnology', 'Chemical', 'Civil', 'Ceramic',
+  'Electrical', 'Electronics & Communication', 'Electronics & Instrumentation', 'Food Processing',
+  'Industrial Design', 'Mechanical', 'Metallurgy', 'Mining',
+];
+
 const MainPage = () => {
-  const Fields = [
-    "Software/IT",
-    "Analytics",
-    "VLSI",
-    "Biomedical",
-    "Biotechnology",
-    "Chemical",
-    "Civil",
-    "Ceramic",
-    "Electrical",
-    "Electronics & Communication",
-    "Electronics & Instrumentation",
-    "Food Processing",
-    "Industrial Design",
-    "Mechanical",
-    "Metallurgy",
-    "Mining",
-  ];
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [File, setFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState("");
-  const [positionType, setpositionType] = useState("");
-  const [field, setField] = useState("");
-  const [analysisResult, setAnalysisResult] = useState(""); // ✅ Add this
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
+  const [positionType, setPositionType] = useState('');
+  const [field, setField] = useState('');
 
   const handleFileUpload = async () => {
-    if (!File) {
-      return alert("Please select your resume file.");
-    }
+    if (!file) return setError('Please select your resume file.');
 
     const formData = new FormData();
-    formData.append("file", File);
-    formData.append("position_type", positionType);
-    formData.append("field", field);
+    formData.append('file', file);
+    formData.append('position_type', positionType);
+    formData.append('field', field);
 
+    setError(null);
+    setLoading(true);
     try {
-      setLoading(true);  // Showing Loader
-      const res = await axios.post("http://127.0.0.1:8000/analyze", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const res = await axios.post('http://127.0.0.1:8000/analyze', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-
-      setAnalysisResult(res.data.result);
-      navigate("/result", { state: { result: res.data.result }});
-      setUploadStatus("✅ Resume analyzed successfully");
-    } catch (error) {
-      setUploadStatus(
-        "❌ Upload failed: " + (error.response?.data?.error || "Server error")
-      );
-      console.error(error);
+      navigate('/result', { state: { result: res.data.result } });
+    } catch (err) {
+      setError(err.response?.data?.error || 'Server error — please try again.');
     } finally {
-      setLoading(false); // Hiding the Loader
+      setLoading(false);
     }
   };
-
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 2 }} 
-      className={style.container}
+      transition={{ duration: 0.4 }}
+      className="mx-auto max-w-6xl px-4 py-16 md:px-8"
     >
-      <div>
-        <div className={style.heading}>
-          <AnalysisPageheader />
-        </div>
-        <div className={style.midSection}>
-          <div className={style.leftSection}>
-            <div className={style.inputGroup}>
-              <label htmlFor="field">Choose your field:</label>
-              <select
-                id="field"
-                className={style.dropdown}
-                value={field}
-                onChange={(e) => setField(e.target.value)}
-              >
-                <option value="">Select Field</option>
-                {Fields.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={style.inputGroup}>
-              <label htmlFor="Purpose">Purpose:</label>
-              <select
-                id="Purpose"
-                className={style.dropdown}
-                value={positionType}
-                onChange={(e) => setpositionType(e.target.value)}
-              >
-                <option value="">Select Purpose</option>
-                <option value="Intern">Internship</option>
-                <option value="Placement">Placement</option>
-              </select>
-            </div>
-            <div className={style.uploadGroup}>
-            <label htmlFor="resumeUpload">Upload Resume:</label>
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className={style.fileInput}
-                id="resumeUpload"
-              />
-             
-              <button onClick={handleFileUpload} className={style.uploadButton}>
-                Upload Resume
-              </button>
-              
-              {uploadStatus && <p className={style.status}>{uploadStatus}</p>}
-              {loading ? (
-                <Loader />
-              ) :
-              (
-                analysisResult && (
-                <div className={style.resultBox}>
-                  <h3>AI Resume Feedback:</h3>
-                  <pre>{analysisResult}</pre>
-                </div>
-              )
-              )}
-              
-            </div>
+      <AnalysisPageheader />
+
+      <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <SectionCard title="Upload your resume">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Select label="Field" value={field} onChange={(e) => setField(e.target.value)}>
+              <option value="">Select field</option>
+              {FIELDS.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Select>
+            <Select label="Purpose" value={positionType} onChange={(e) => setPositionType(e.target.value)}>
+              <option value="">Select purpose</option>
+              <option value="Intern">Internship</option>
+              <option value="Placement">Placement</option>
+            </Select>
           </div>
-          <div className={style.rightSection}>
-            <video
-              src={animation}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={style.video}
-            ></video>
-          </div>
-        </div>
-        <div className={style.afterMidSection}>
-          <h2>What Happens After You Upload?</h2>
-          <p>
-            Our Smart Resume Analyzer evaluates your resume using advanced AI
-            models to provide:
-          </p>
-          <ul>
-            <li>✔ Resume Score & ATS Compatibility</li>
-            <li>✔ Field-specific Skill Match Analysis</li>
-            <li>✔ Improvement Suggestions Powered by AI</li>
-          </ul>
-          <p>
-            Start your journey to building a stronger, more impactful resume
-            today!
-          </p>
+
+          <FileUpload
+            label="Resume file"
+            helperText="PDF only"
+            accept=".pdf"
+            fileName={file?.name}
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            className="mt-4"
+          />
+
+          <Button onClick={handleFileUpload} disabled={loading} loading={loading} className="mt-5 w-full" size="lg">
+            {loading ? 'Analyzing...' : 'Upload and analyze'}
+          </Button>
+
+          {loading && <Loader />}
+          {error && <ErrorState className="mt-4" title="Analysis failed" description={error} />}
+        </SectionCard>
+
+        <div className="overflow-hidden rounded-lg border border-border bg-surface-muted">
+          <video src={animation} autoPlay loop muted playsInline className="h-full w-full object-cover" />
         </div>
       </div>
+
+      <SectionCard title="What happens after you upload?" className="mt-8">
+        <p className="text-body-sm text-text-secondary">Resumind evaluates your resume to provide:</p>
+        <ul className="mt-3 space-y-2">
+          {['Resume score & ATS compatibility', 'Field-specific skill match analysis', 'Concrete improvement suggestions'].map((item) => (
+            <li key={item} className="flex items-center gap-2 text-body-sm text-text-primary">
+              <Check className="h-4 w-4 text-teal" strokeWidth={2} />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </SectionCard>
     </motion.div>
   );
 };

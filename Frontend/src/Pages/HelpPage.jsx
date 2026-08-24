@@ -1,93 +1,55 @@
-// HelpPage.jsx
-import React from "react";
-import style from "./HelpPage.module.css";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+import { BaseCard, SectionCard } from '../Components/design-system';
+
+const STEPS = [
+  { title: 'Choose your field and goal', description: 'Select the field you want to apply for, and whether you are targeting an internship or a placement.' },
+  { title: 'Upload your resume', description: 'Upload your current resume in PDF or DOCX format.' },
+  { title: 'Get your resume analyzed', description: 'Resumind extracts the structured content of your resume and matches it against the role.' },
+  { title: 'Review your report', description: 'See your score, requirement-level matches, and priority-ranked gaps to address first.' },
+];
+
+const TIPS = [
+  'Keep it short and clear — ideally 1–2 pages.',
+  'Use role-specific keywords and concrete achievements.',
+  'Maintain a clean layout with clearly labeled sections.',
+  'Quantify your work where accurate (e.g. "Reduced latency by 35%").',
+];
 
 const Help = () => {
   return (
     <motion.div
-      className={style.wrapper}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.4 }}
+      className="mx-auto max-w-3xl px-4 py-16 md:px-8"
     >
-      <div className={style.card}>
-        <h1 className={style.heading}>How to Use Resumind</h1>
-        <h3 className={style.intro}>
-          Follow these simple steps to get the most accurate resume analysis and
-          boost your placement/internship chances!
-        </h3>
+      <h1 className="text-h1 font-semibold text-text-primary">How to use Resumind</h1>
+      <p className="mt-2 text-body-lg text-text-secondary">Follow these steps to get the most accurate analysis of your resume.</p>
 
-        <motion.div
-          className={style.step}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1}}
-        >
-          <h2>Step 1: Choose your Field</h2>
-          <h3>
-             Select the field in which you want to apply for.
-          </h3>
-          <h2>Step 2: Choose Your Goal</h2>
-          <h3>
-            Select Internship or Placement to help us personalize your resume
-            feedback.
-          </h3>
-        </motion.div>
-
-        <motion.div
-          className={style.step}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2 }}
-        >
-          <h2>Step 3: Upload Your Resume</h2>
-          <h3>
-            Upload your updated resume in PDF/DOCX format for accurate analysis.
-          </h3>
-        </motion.div>
-
-        <motion.div
-          className={style.step}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 3 }}
-        >
-          <h2>Step 4: Get Your Resume Analyzed</h2>
-          <h3>
-            Our AI engine extracts key insights and gives you a detailed score
-            report.
-          </h3>
-        </motion.div>
-
-        <motion.div
-          className={style.step}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 4}}
-        >
-          <h2>Step 5: Review Your Report</h2>
-          <h3>
-            Understand strengths, weaknesses, and get improvement suggestions
-            instantly.
-          </h3>
-        </motion.div>
-
-        <motion.div
-          className={style.tips}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 5 }}
-        >
-          <h2>Tips to Improve Your Resume Score</h2>
-          <ul>
-            <li><h3>Keep it short and clear – ideally 1–2 pages.</h3></li>
-            <li><h3>Use job-specific keywords and achievements.</h3></li>
-            <li><h3>Maintain a clean layout with sections.</h3></li>
-            <li><h3>Quantify your work (e.g., "Increased sales by 20%").</h3></li>
-          </ul>
-        </motion.div>
+      <div className="mt-8 space-y-3">
+        {STEPS.map((step, index) => (
+          <BaseCard key={step.title} className="flex flex-row items-start gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-soft-brand font-mono text-body-sm font-semibold text-primary">
+              {index + 1}
+            </span>
+            <div>
+              <h2 className="text-h4 font-semibold text-text-primary">{step.title}</h2>
+              <p className="mt-1 text-body-sm text-text-secondary">{step.description}</p>
+            </div>
+          </BaseCard>
+        ))}
       </div>
+
+      <SectionCard title="Tips to improve your score" className="mt-8">
+        <ul className="space-y-2">
+          {TIPS.map((tip) => (
+            <li key={tip} className="flex items-start gap-2 text-body-sm text-text-secondary">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-text-muted" />
+              {tip}
+            </li>
+          ))}
+        </ul>
+      </SectionCard>
     </motion.div>
   );
 };

@@ -1,15 +1,9 @@
-import React from "react";
-import styles from "./AnalysisPageheader.module.css";
-
 const AnalysisPageheader = () => {
   return (
-    <div className={styles.headerContainer}>
-      <h1 className={styles.heading}>
-      <span className={styles.emoji}>🎯</span> Welcome to <span className={styles.Resumind}>Resumind</span>
-      </h1>
-      <p className={styles.subheading}>
-        Make your resume job-ready with AI-powered analysis tailored to your
-        goals.
+    <div>
+      <h1 className="text-h1 font-semibold text-text-primary">Analyze your resume</h1>
+      <p className="mt-2 text-body-lg text-text-secondary">
+        Select your field and goal, then upload your resume for a detailed report.
       </p>
     </div>
   );
