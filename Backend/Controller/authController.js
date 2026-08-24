@@ -1,4 +1,4 @@
-const userModel = require("../Models/User")
+const prisma = require("../config/prismaClient");
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
@@ -6,27 +6,29 @@ require('dotenv').config();
 const signup = async(req, res) => {
   try {
     const { name,college,email,password } = req.body;
-    const search = await userModel.findOne({email});
-    if( search ) {
-      res.status(400).json({message: "User already exists", sucess: false});
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if( existing ) {
+      return res.status(400).json({message: "User already exists", success: false});
     }
 
-    const user = new userModel({name, college, email, password});
-    user.password = await bcrypt.hash(password, 10);
-    await user.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await prisma.user.create({
+      data: { name, college, email, password: hashedPassword }
+    });
 
-    res.status(201).json({message: "Signed up sucessfully", success:true});
+    res.status(201).json({message: "Signed up successfully", success: true});
   } catch (err) {
-    res.status(500).json({message: "Interal server error", success: false, err});
+    console.error("Signup error:", err);
+    res.status(500).json({message: "Internal server error", success: false});
   }
 }
 
 const login = async(req, res) => {
   try {
     const { email, password } = req.body;
-    const user = userModel({email});
+    const user = await prisma.user.findUnique({ where: { email } });
     if( !user ) {
-      res.status(400).json({message: "User not found", success: false});
+      return res.status(400).json({message: "User not found", success: false});
     }
     const check = await bcrypt.compare(password, user.password);
     if( !check ) {
@@ -34,7 +36,7 @@ const login = async(req, res) => {
     }
 
     const jwtToken = jwt.sign(
-      {email: user.email, _id: user._id},
+      {email: user.email, _id: user.id},
       process.env.JWT_KEY,
       {expiresIn: '24h'}
     );
@@ -42,7 +44,8 @@ const login = async(req, res) => {
     res.status(200).json({message: "Logged in successfully",
       success: true,
       jwtToken,
-      email
+      email,
+      name: user.name
     });
 
 

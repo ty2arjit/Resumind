@@ -1,16 +1,28 @@
 const express = require("express");
 const axios = require("axios");
+const multer = require("multer");
+const FormData = require("form-data");
 const router = express.Router();
 
-router.post("/analyze-resume", async (req, res) => {
-  try {
-    const { resumeText, positionType, field } =
-      req.body;
+const upload = multer({ storage: multer.memoryStorage() });
 
-    const response = await axios.post("http://localhost:8000/analyze", {
-      resume_text: resumeText,
-      position_type: positionType,
-      field: field
+const FASTAPI_URL = process.env.FASTAPI_URL || "http://localhost:8000";
+
+router.post("/analyze-resume", upload.single("resume"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No resume file uploaded" });
+    }
+
+    const { positionType, field } = req.body;
+
+    const formData = new FormData();
+    formData.append("file", req.file.buffer, req.file.originalname);
+    formData.append("position_type", positionType);
+    formData.append("field", field);
+
+    const response = await axios.post(`${FASTAPI_URL}/analyze`, formData, {
+      headers: formData.getHeaders(),
     });
 
     res.json({ result: response.data.result });

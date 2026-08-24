@@ -6,8 +6,7 @@ const path = require("path");
 const aiRoute = require('./Routes/aiRoutes');
 const bodyParser = require('body-parser');
 const authRouter = require('./Routes/authRoutes')
-require('./Models/db');
-require('dotenv').config(); 
+require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,7 +23,7 @@ app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'Uploads');
+    cb(null, 'uploads');
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -33,7 +32,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if(req.mimetype === 'application/pdf') {
+  if(file.mimetype === 'application/pdf') {
     cb(null, true);
   }
   else{
