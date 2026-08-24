@@ -1,8 +1,7 @@
 import fitz  # PyMuPDF
-from fastapi import UploadFile
 
-def extract_text(file: UploadFile) -> str:
-    doc = fitz.open(stream=file.file.read(), filetype="pdf")
+def extract_text_from_pdf(file_bytes: bytes) -> str:
+    doc = fitz.open(stream=file_bytes, filetype="pdf")
     text = ""
     for page in doc:
         text += page.get_text()
