@@ -63,6 +63,17 @@ app.post('/Upload', upload.single('resume'), (req, res) => {
 })
 
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(
+      `Port ${PORT} is already in use. Stop whatever else is running on it ` +
+      `(e.g. \`lsof -i :${PORT}\` then \`kill <PID>\`), or set a different PORT in Backend/.env.`
+    );
+    process.exit(1);
+  }
+  throw err;
 });
