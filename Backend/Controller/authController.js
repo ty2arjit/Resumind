@@ -21,6 +21,15 @@ const handleAuthError = (res, err, action) => {
       success: false,
     });
   }
+  // P2021: the query targeted a table that doesn't exist — the schema
+  // (Backend/prisma/schema.prisma) has never been applied to this
+  // database, distinct from a connectivity problem.
+  if (err?.code === 'P2021') {
+    return res.status(503).json({
+      message: "The database is reachable but its tables don't exist yet. Run `npx prisma migrate deploy` from Backend/ to apply the schema.",
+      success: false,
+    });
+  }
   res.status(500).json({ message: 'Internal server error', success: false });
 };
 
