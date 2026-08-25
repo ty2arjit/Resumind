@@ -1,22 +1,38 @@
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Check, TriangleAlert } from 'lucide-react';
-import { Button, ScoreBreakdownRow, ScoreHero } from '../Components/design-system';
+import { Button, Reveal, ScoreBreakdownRow, ScoreHero } from '../Components/design-system';
 import HighlightCards from '../Components/HighlightCards';
+
+// three.js + @react-three/fiber add ~1MB — split it into its own chunk
+// so only the landing page pays that cost, not the dashboard/auth/etc.
+const HeroScene = lazy(() => import('../Components/three/HeroScene'));
 
 /**
  * Landing page (frontendReadme §40) — the product itself is the hero:
- * a realistic analysis preview built from the real design system, not a
- * generic "AI-powered resume analyzer" gradient hero. The scores below
- * are a static illustrative preview for marketing purposes, not a live
- * API call — the actual product experience lives at /dashboard.
+ * a realistic analysis preview built from the real design system, plus
+ * a signature 3D motif (Components/three/HeroScene.jsx) for visual
+ * presence. The scores shown are a static illustrative preview for
+ * marketing purposes, not a live API call — the actual product
+ * experience lives at /dashboard.
  */
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-8 md:pb-28 md:pt-24">
+    <div className="overflow-hidden">
+      <section className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-8 md:pb-28 md:pt-24">
+        {/* Decorative only (aria-hidden inside HeroScene) — kept off
+            narrow viewports entirely so it never sits behind the
+            single-column headline text, and on md+ scoped to roughly
+            the right column so it stays behind the preview card. */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-1/2 opacity-80 md:block">
+          <Suspense fallback={null}>
+            <HeroScene className="h-full w-full" />
+          </Suspense>
+        </div>
+
         <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-2">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <p className="text-label font-semibold uppercase tracking-wider text-primary">Resume Intelligence</p>
@@ -41,7 +57,8 @@ const Home = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="rounded-lg border border-border bg-surface p-6 shadow-medium"
+            whileHover={{ y: -4 }}
+            className="rounded-lg border border-border bg-surface/95 p-6 shadow-elevated backdrop-blur-sm"
           >
             <p className="text-label font-semibold uppercase tracking-wider text-text-muted">Analysis preview</p>
             <div className="mt-3">
@@ -68,8 +85,10 @@ const Home = () => {
 
       <section className="border-t border-border bg-surface-muted">
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-8">
-          <p className="text-label font-semibold uppercase tracking-wider text-text-muted">What you get</p>
-          <h2 className="mt-2 text-h1 font-semibold text-text-primary">Explainable, requirement-level scoring.</h2>
+          <Reveal>
+            <p className="text-label font-semibold uppercase tracking-wider text-text-muted">What you get</p>
+            <h2 className="mt-2 text-h1 font-semibold text-text-primary">Explainable, requirement-level scoring.</h2>
+          </Reveal>
           <div className="mt-8">
             <HighlightCards />
           </div>

@@ -1,5 +1,5 @@
 import { BarChart3, FileSearch, ListChecks, Target } from 'lucide-react';
-import { BaseCard } from './design-system';
+import { BaseCard, Reveal } from './design-system';
 
 const features = [
   {
@@ -27,14 +27,16 @@ const features = [
 const HighlightCards = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {features.map((feature) => (
-        <BaseCard key={feature.title} hoverable>
-          <span className="inline-flex rounded-md bg-soft-brand p-2 text-primary">
-            <feature.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-          </span>
-          <h3 className="mt-4 text-h4 font-semibold text-text-primary">{feature.title}</h3>
-          <p className="mt-1.5 text-body-sm text-text-secondary">{feature.description}</p>
-        </BaseCard>
+      {features.map((feature, i) => (
+        <Reveal key={feature.title} delay={i * 0.08}>
+          <BaseCard hoverable>
+            <span className="inline-flex rounded-md bg-soft-brand p-2 text-primary">
+              <feature.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 text-h4 font-semibold text-text-primary">{feature.title}</h3>
+            <p className="mt-1.5 text-body-sm text-text-secondary">{feature.description}</p>
+          </BaseCard>
+        </Reveal>
       ))}
     </div>
   );

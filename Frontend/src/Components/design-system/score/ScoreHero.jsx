@@ -1,4 +1,5 @@
 import { getScoreState } from './scoreStates';
+import AnimatedNumber from '../motion/AnimatedNumber';
 
 /**
  * The primary, number-first score display (frontendReadme §12):
@@ -18,9 +19,7 @@ export default function ScoreHero({ score, label, description }) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-baseline gap-3">
-        <span className="font-mono text-score-lg font-semibold leading-none tracking-tight text-text-primary">
-          {clamped}
-        </span>
+        <AnimatedNumber value={clamped} className="font-mono text-score-lg font-semibold leading-none tracking-tight text-text-primary" />
         <span className="text-caption font-semibold uppercase tracking-wider" style={{ color }}>
           {state.label}
         </span>

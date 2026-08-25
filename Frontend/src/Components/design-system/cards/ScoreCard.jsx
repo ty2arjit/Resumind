@@ -1,5 +1,6 @@
 import BaseCard from './BaseCard';
 import { getScoreState } from '../score/scoreStates';
+import AnimatedNumber from '../motion/AnimatedNumber';
 import { cn } from '../../../lib/cn';
 
 /**
@@ -17,9 +18,7 @@ export default function ScoreCard({ title, description, score, className }) {
   return (
     <BaseCard className={cn('flex flex-col gap-3', className)}>
       <div className="flex items-baseline gap-2.5">
-        <span className="font-mono text-score-md font-semibold leading-none tracking-tight text-text-primary">
-          {clamped}
-        </span>
+        <AnimatedNumber value={clamped} className="font-mono text-score-md font-semibold leading-none tracking-tight text-text-primary" />
         <span className="text-caption font-semibold uppercase tracking-wider" style={{ color }}>
           {state.label}
         </span>

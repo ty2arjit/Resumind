@@ -38,6 +38,9 @@ export { default as Spinner } from './feedback/Spinner';
 export { default as ProgressState } from './feedback/ProgressState';
 export { default as ErrorState } from './feedback/ErrorState';
 
+export { default as AnimatedNumber } from './motion/AnimatedNumber';
+export { default as Reveal } from './motion/Reveal';
+
 export {
   Table,
   TableHead,
