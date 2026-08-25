@@ -26,6 +26,8 @@ export { default as ScoreBar } from './score/ScoreBar';
 export { default as ScoreBadge } from './score/ScoreBadge';
 export { default as ScoreHero } from './score/ScoreHero';
 export { default as ScoreBreakdownRow } from './score/ScoreBreakdownRow';
+export { default as ColorimetricMeter } from './score/ColorimetricMeter';
+export { default as ColorimetricBar } from './score/ColorimetricBar';
 export { getScoreState, getMatchStrengthDisplay, SCORE_STATES } from './score/scoreStates';
 
 export { default as SidebarNav, DEFAULT_NAV_SECTIONS } from './navigation/SidebarNav';
@@ -37,6 +39,7 @@ export { default as Skeleton } from './feedback/Skeleton';
 export { default as Spinner } from './feedback/Spinner';
 export { default as ProgressState } from './feedback/ProgressState';
 export { default as ErrorState } from './feedback/ErrorState';
+export { default as Accordion, AccordionItem } from './feedback/Accordion';
 
 export { default as AnimatedNumber } from './motion/AnimatedNumber';
 export { default as Reveal } from './motion/Reveal';

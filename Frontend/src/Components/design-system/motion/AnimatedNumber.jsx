@@ -1,34 +1,45 @@
 import { useEffect, useRef } from 'react';
-import { animate, useMotionValue, useTransform, motion } from 'framer-motion';
+
+const EASE_OUT_EXPO = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
 /**
  * Counts up to `value` when it first mounts/changes — used for score
- * reveals (ScoreHero, ScoreCard) so a result feels calculated rather
- * than just appearing. Respects prefers-reduced-motion.
+ * reveals (ScoreHero, ScoreCard, ColorimetricMeter) so a result feels
+ * calculated rather than just appearing. Respects prefers-reduced-motion.
+ *
+ * A plain requestAnimationFrame tween, not framer-motion's imperative
+ * animate() — that call reliably produced zero onUpdate events in this
+ * app's installed framer-motion version (verified directly: neither the
+ * animate(from, to, opts) numeric overload nor animate(motionValue,
+ * target, opts) + .on('change') ever fired), so this avoids that
+ * dependency entirely rather than trying to work around it.
  */
 export default function AnimatedNumber({ value, className, duration = 1.1 }) {
-  const motionValue = useMotionValue(0);
-  const rounded = useTransform(motionValue, (v) => Math.round(v));
   const spanRef = useRef(null);
-  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
+    if (!spanRef.current) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
-      motionValue.set(value);
+      spanRef.current.textContent = value;
       return;
     }
-    const controls = animate(motionValue, value, { duration, ease: [0.16, 1, 0.3, 1] });
-    return controls.stop;
+
+    let frame;
+    const start = performance.now();
+    const durationMs = duration * 1000;
+
+    const tick = (now) => {
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / durationMs);
+      const current = Math.round(value * EASE_OUT_EXPO(t));
+      if (spanRef.current) spanRef.current.textContent = current;
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  useEffect(() => rounded.on('change', (v) => {
-    if (spanRef.current) spanRef.current.textContent = v;
-  }), [rounded]);
-
-  return (
-    <motion.span ref={spanRef} className={className}>
-      {reducedMotion ? value : 0}
-    </motion.span>
-  );
+  return <span ref={spanRef} className={className} />;
 }
