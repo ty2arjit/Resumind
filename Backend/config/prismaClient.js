@@ -12,7 +12,10 @@ if (!connectionString) {
 
 const adapter = new PrismaPg({
   connectionString,
-  connectionTimeoutMillis: 10000,
+  // Neon's free tier suspends idle databases; the first query after a
+  // period of inactivity has to wait for it to wake up, which can take
+  // longer than a typical connection timeout.
+  connectionTimeoutMillis: 20000,
 });
 
 const prisma = new PrismaClient({ adapter });

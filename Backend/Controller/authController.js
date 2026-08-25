@@ -3,6 +3,27 @@ const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
+// Connection-level failures (timeout, DNS, refused, Neon auto-suspend
+// wake-up taking too long) look identical to any other 500 from the
+// client's perspective otherwise, which makes them impossible to
+// self-diagnose. Surface them distinctly instead.
+const isDbConnectivityError = (err) =>
+  err?.code === 'P1001' || // Prisma: can't reach database server
+  err?.code === 'P1002' || // Prisma: database server timed out
+  /connection.*(timeout|terminated|refused)/i.test(err?.message || '') ||
+  /connection.*(timeout|terminated|refused)/i.test(err?.cause?.message || '');
+
+const handleAuthError = (res, err, action) => {
+  console.error(`${action} error:`, err);
+  if (isDbConnectivityError(err)) {
+    return res.status(503).json({
+      message: 'Could not reach the database. Check that POSTGRESQL_DATABASE_URL in Backend/.env is correct and that your Neon project is active (not paused).',
+      success: false,
+    });
+  }
+  res.status(500).json({ message: 'Internal server error', success: false });
+};
+
 const signup = async(req, res) => {
   try {
     const { name,college,email,password } = req.body;
@@ -18,8 +39,7 @@ const signup = async(req, res) => {
 
     res.status(201).json({message: "Signed up successfully", success: true});
   } catch (err) {
-    console.error("Signup error:", err);
-    res.status(500).json({message: "Internal server error", success: false});
+    handleAuthError(res, err, 'Signup');
   }
 }
 
@@ -50,7 +70,7 @@ const login = async(req, res) => {
 
 
   } catch (err) {
-    res.status(500).json({message: "Internal server error", success: false});
+    handleAuthError(res, err, 'Login');
   }
 }
 
